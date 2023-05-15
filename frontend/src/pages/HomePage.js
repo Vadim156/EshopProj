@@ -5,6 +5,9 @@ import logger from 'use-reducer-logger';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Product from '../Components/Product';
+import { Helmet } from 'react-helmet-async';
+import LoadingComponent from '../Components/LoadingComponent.js';
+import MessageBox from '../Components/MessageBox.js';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -44,12 +47,15 @@ function HomePage() {
 
   return (
     <div>
+      <Helmet>
+        <title>EShop</title>
+      </Helmet>
       <h1>Products</h1>
       <div className="products">
         {loading ? (
-          <p>Loading...</p>
+          <LoadingComponent />
         ) : error ? (
-          <p>{error}</p>
+          <MessageBox variant="danger">{error}</MessageBox>
         ) : (
           <Row>
             {products.map((prod) => (
