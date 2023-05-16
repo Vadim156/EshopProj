@@ -57,7 +57,7 @@ function ProductPage() {
 
   const { state, dispatch: cxtDispatch } = useContext(Store);
   const addToCartHandler = () => {
-    cxtDispatch({ type: 'Add To Cart', payload: { ...product, quantity: 1 } });
+    cxtDispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity: 1 } });
   };
   return (
     <div>
@@ -89,7 +89,7 @@ function ProductPage() {
                   numReviews={product.numReviews}
                 ></Rating>
               </ListGroup.Item>
-              <ListGroup.Item>Pirce : ${product.price}</ListGroup.Item>
+              <ListGroup.Item>Price : ${product.price}</ListGroup.Item>
 
               <ListGroup.Item>
                 Description:
@@ -123,10 +123,7 @@ function ProductPage() {
                   {product.countInStock > 0 && (
                     <ListGroup.Item>
                       <div className="d-grid">
-                        <Button
-                           onClick={addToCartHandler}
-                          variant="primary"
-                        >
+                        <Button onClick={addToCartHandler} variant="primary">
                           Add to Cart
                         </Button>
                       </div>

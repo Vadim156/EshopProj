@@ -25,12 +25,11 @@ function App() {
               <Nav className="ms-auto w-50 justify-content-end">
                 <Link to="/cart" className="nav-link">
                   <i className="fas fa-shopping-cart"></i>
-                  {cart.cartItems.length >= 0 && (
+
+                  {console.log(cart)}
+                  {cart.cartItems.length > 0 && (
                     <Badge pill bg="danger">
-                      {cart.cartItems.reduce(
-                        (a, c) => console.log(a, c, cart.cartItems),
-                        0
-                      )}
+                      {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
                     </Badge>
                   )}
                 </Link>

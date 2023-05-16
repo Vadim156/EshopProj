@@ -11,7 +11,7 @@ const initialState = {
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'Add_To_Card':
+    case 'ADD_TO_CART':
       return {
         ...state,
         cart: {
