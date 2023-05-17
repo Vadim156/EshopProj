@@ -24,7 +24,7 @@ function App() {
               </LinkContainer>
               <Nav className="ms-auto w-50 justify-content-end">
                 <Link to="/cart" className="nav-link">
-                  <i className="fas fa-shopping-cart"></i>
+                  <i className="fas fa-shopping-cart text-white"></i>
 
                   {cart.cartItems.length > 0 && (
                     <Badge pill bg="danger">
