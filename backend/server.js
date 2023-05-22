@@ -16,8 +16,8 @@ app.use(
 );
 app.use('/api/v1/seed', seedRouter);
 
-app.get('/api/v1/product/token/:token', (req, res) => {
-  const product = data.products.find((x) => x.token === req.params.token);
+app.get('/api/v1/product/:token', (req, res) => {
+  const product = data.products.find((x) => x._id === req.params._id);
   if (product) {
     res.send(product);
   } else {

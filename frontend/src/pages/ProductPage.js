@@ -16,6 +16,7 @@ import MessageBox from '../Components/MessageBox.js';
 import { getError } from '../Utils';
 import { Store } from '../store.js';
 import { useContext } from 'react';
+import { useNavigate } from 'react';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -31,6 +32,7 @@ const reducer = (state, action) => {
 };
 
 function ProductPage() {
+  // const Navigate = useNavigate();
   const params = useParams();
   const { _id } = params;
 
@@ -45,7 +47,7 @@ function ProductPage() {
       dispatch({ type: 'GET_REQUEST' });
 
       try {
-        const res = await axios.get(`/api/v1/product/1`);
+        const res = await axios.get(`/api/v1/product/${product._id}`);
         dispatch({ type: 'GET_SUCCESS', payload: res.data });
       } catch (error) {
         dispatch({ type: 'GET_FAIL', payload: getError(error) });
@@ -53,13 +55,13 @@ function ProductPage() {
     };
 
     getProduct();
-  }, [_id]);
+  }, []);
 
   const { state, dispatch: cxtDispatch } = useContext(Store);
   const { cart } = state;
 
   const addToCartHandler = async () => {
-    const existItem = cart.cartItems.find((x) => x._id === product._id);
+    const existItem = cart.cartItems.find((x) => x.token === product.token);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/v1/product/${product._id}`);
     if (data.countInStock < quantity) {
@@ -67,7 +69,9 @@ function ProductPage() {
       return;
     }
     cxtDispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity } });
+    // Navigate('/cart');
   };
+
   return (
     <div>
       {loading ? (
@@ -121,7 +125,9 @@ function ProductPage() {
                       <Col>Status:</Col>
                       <Col>
                         {product.countInStock > 0 ? (
-                          <Badge bg="success">In Stock</Badge>
+                          console.log(product.token) && (
+                            <Badge bg="success">In Stock</Badge>
+                          )
                         ) : (
                           <Badge bg="danger">Unavailable</Badge>
                         )}

@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
+import CartPage from './pages/CartPage';
 import ProductPage from './pages/ProductPage';
 import NavBar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
@@ -23,7 +24,7 @@ function App() {
                 <NavBar.Brand>EShop</NavBar.Brand>
               </LinkContainer>
               <Nav className="ms-auto w-50 justify-content-end">
-                <Link to="/cart" className="nav-link">
+                <Link to="/cart" className="nav-link" element={<CartPage />}>
                   <i className="fas fa-shopping-cart text-white"></i>
 
                   {cart.cartItems.length > 0 && (
