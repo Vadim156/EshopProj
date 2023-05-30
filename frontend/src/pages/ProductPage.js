@@ -34,7 +34,7 @@ const reducer = (state, action) => {
 function ProductPage() {
   // const Navigate = useNavigate();
   const params = useParams();
-  const { _id } = params;
+  const { token } = params;
 
   const [{ loading, error, product }, dispatch] = useReducer(reducer, {
     loading: true,
@@ -45,9 +45,9 @@ function ProductPage() {
   useEffect(() => {
     const getProduct = async () => {
       dispatch({ type: 'GET_REQUEST' });
-
+      console.log(product);
       try {
-        const res = await axios.get(`/api/v1/product/${product._id}`);
+        const res = await axios.get(`/api/v1/products/token/${token}`);
         dispatch({ type: 'GET_SUCCESS', payload: res.data });
       } catch (error) {
         dispatch({ type: 'GET_FAIL', payload: getError(error) });
@@ -55,15 +55,15 @@ function ProductPage() {
     };
 
     getProduct();
-  }, []);
+  }, [token]);
 
   const { state, dispatch: cxtDispatch } = useContext(Store);
   const { cart } = state;
 
   const addToCartHandler = async () => {
-    const existItem = cart.cartItems.find((x) => x.token === product.token);
+    const existItem = cart.cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
-    const { data } = await axios.get(`/api/v1/product/${product._id}`);
+    const { data } = await axios.get(`/api/v1/products/${product._id}`);
     if (data.countInStock < quantity) {
       window.alert('Sorry. Product is out of stock');
       return;
@@ -125,9 +125,7 @@ function ProductPage() {
                       <Col>Status:</Col>
                       <Col>
                         {product.countInStock > 0 ? (
-                          console.log(product.token) && (
-                            <Badge bg="success">In Stock</Badge>
-                          )
+                          <Badge bg="success">In Stock</Badge>
                         ) : (
                           <Badge bg="danger">Unavailable</Badge>
                         )}

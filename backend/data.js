@@ -1,7 +1,15 @@
+import bcrypt from 'bcryptjs';
+
 const data = {
+  users: [
+    {
+      name: 'Admin',
+      email: 'admin@example.com',
+      password: bcrypt.hashSync('12345'),
+    },
+  ],
   products: [
     {
-      _id: 1,
       name: 'Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops',
       price: 109.95,
       description:

@@ -61,6 +61,10 @@ main {
   height: 10rem;
 }
 
-.image-thumbnail{
+.image-thumbnail {
   height: 70px;
+}
+
+.small-container {
+  max-width: 600px;
 }

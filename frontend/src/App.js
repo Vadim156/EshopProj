@@ -10,6 +10,7 @@ import { Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Store } from './store.js';
 import { useContext } from 'react';
+import SigninPage from './pages/SignInPage';
 
 function App() {
   const { state } = useContext(Store);
@@ -41,7 +42,9 @@ function App() {
           <Container className="mt-3">
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/product/:token" element={<ProductPage />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/products/:token" element={<ProductPage />} />
+              <Route path="/signIn" element={<SigninPage />} />
             </Routes>
           </Container>
         </main>

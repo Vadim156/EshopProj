@@ -60,6 +60,7 @@ function HomePage() {
           <Row>
             {products.map((prod) => (
               <Col lg={3} md={3} sm={6}>
+                {console.log(prod)}
                 <Product product={prod}></Product>
               </Col>
             ))}

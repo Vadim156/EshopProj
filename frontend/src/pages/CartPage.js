@@ -9,19 +9,19 @@ import MessageBox from '../Components/MessageBox.js';
 import { Store } from '../store.js';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import useNavigate from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function CartPage() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const {
     cart: { cartItems },
   } = state;
 
   const updateCartHandler = async (item, quantity) => {
-    const { data } = await axios.get(`/api/v1/products/${item._id}`);
+    const { data } = await axios.get(`/api/v1/products/token/${item.token}`);
     if (data.countInStock < quantity) {
       window.alert('Sorry. Product is out of stock');
       return;
@@ -38,9 +38,9 @@ function CartPage() {
       payload: item,
     });
   };
-  // const checkoutHandler = async () => {
-  //   navigate('/signin?redirect=/shipping');
-  // };
+  const checkoutHandler = async () => {
+    navigate('/signin?redirect=/shipping');
+  };
   return (
     <div>
       <Helmet>
@@ -72,7 +72,9 @@ function CartPage() {
                       <Button
                         variant="light"
                         disabled={item.quantity === 1}
-                        onClick={() => updateCartHandler(item.quantity - 1)}
+                        onClick={() =>
+                          updateCartHandler(item, item.quantity - 1)
+                        }
                       >
                         <i className="fas fa-minus-circle"></i>
                       </Button>{' '}
@@ -80,7 +82,9 @@ function CartPage() {
                       <Button
                         variant="light"
                         disabled={item.quantity === item.countInStock}
-                        onClick={() => updateCartHandler(item.quantity + 1)}
+                        onClick={() =>
+                          updateCartHandler(item, item.quantity + 1)
+                        }
                       >
                         <i className="fas fa-plus-circle"></i>
                       </Button>
@@ -118,7 +122,7 @@ function CartPage() {
                     type="button"
                     variant="primary"
                     disabled={cartItems.lenght === 0}
-                    // onClick={checkoutHandler()}
+                    onClick={checkoutHandler()}
                   >
                     {' '}
                     Checkout
