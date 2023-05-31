@@ -1,6 +1,7 @@
 import express from 'express';
 import User from '../models/userModel.js';
-import expressAsyncHandler from 'expressAsyncHandler';
+import expressAsyncHandler from 'express-async-handler';
+import bcrypt from 'bcryptjs';
 import { generateToken } from '../utils.js';
 
 const userRouter = express.Router();
@@ -23,27 +24,5 @@ userRouter.post(
     res.status(401).send({ message: 'Invalid Password/User' });
   })
 );
-
-// userRouter.get('/token/:token', async (req, res) => {
-//   const user = await User.findOne({ token: req.params.token });
-
-//   if (user) {
-//     res.send(user);
-//   } else {
-//     res.status(404).send({ message: 'user not found' });
-//   }
-// });
-// userRouter.get('/:id', async (req, res) => {
-//   const user = await User.findById(req.params.id);
-//   if (user) {
-//     res.send(user);
-//   } else {
-//     res.status(404).send({ message: 'user not found' });
-//   }
-// });
-// userRouter.get('/', async (req, res) => {
-//   const users = await User.find();
-//   res.send(users);
-// });
 
 export default userRouter;

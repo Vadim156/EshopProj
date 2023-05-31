@@ -11,6 +11,8 @@ import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { ADD_TO_CART } from '../Actions.js';
+import { REMOVE_FROM_CART } from '../Actions.js';
 
 function CartPage() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -27,14 +29,14 @@ function CartPage() {
       return;
     }
     ctxDispatch({
-      type: 'ADD_TO_CART',
+      type: ADD_TO_CART,
       payload: { ...item, quantity },
     });
   };
 
   const removeItemHandler = async (item) => {
     ctxDispatch({
-      type: 'REMOVE_FROM_CART',
+      type: REMOVE_FROM_CART,
       payload: item,
     });
   };

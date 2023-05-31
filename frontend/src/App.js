@@ -7,14 +7,20 @@ import Container from 'react-bootstrap/Container';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Badge } from 'react-bootstrap';
 import { Nav } from 'react-bootstrap';
+import { NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Store } from './store.js';
 import { useContext } from 'react';
 import SigninPage from './pages/SignInPage';
+import { USER_SIGNOUT } from './Actions.js';
 
 function App() {
-  const { state } = useContext(Store);
-  const { cart } = state;
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { cart, userInfo } = state;
+  const signoutHandler = () => {
+    ctxDispatch({ type: USER_SIGNOUT });
+    localStorage.removeItem('userInfo');
+  };
   return (
     <BrowserRouter>
       <div className="d-flex flex-column side-allpage">
@@ -34,6 +40,32 @@ function App() {
                     </Badge>
                   )}
                 </Link>
+                {userInfo ? (
+                  <NavDropdown
+                    className="text-white"
+                    title={userInfo.name}
+                    id="basic-nav-dropdown"
+                  >
+                    <Link.Container to="/profile">
+                      <NavDropdown.Item>User Profile</NavDropdown.Item>
+                    </Link.Container>
+                    <Link.Container to="/orderhistory">
+                      <NavDropdown.Item>Order History</NavDropdown.Item>
+                    </Link.Container>
+                    <NavDropdown.Divider />
+                    <Link
+                      className="dropdown-item text-white"
+                      to="#signout"
+                      onClick={signoutHandler}
+                    >
+                      Sign Out
+                    </Link>
+                  </NavDropdown>
+                ) : (
+                  <Link className="nav-link text-white" to="/signin">
+                    Sign In{' '}
+                  </Link>
+                )}
               </Nav>
             </Container>
           </NavBar>

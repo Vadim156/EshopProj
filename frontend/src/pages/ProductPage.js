@@ -17,14 +17,18 @@ import { getError } from '../Utils';
 import { Store } from '../store.js';
 import { useContext } from 'react';
 import { useNavigate } from 'react';
+import { ADD_TO_CART } from '../Actions';
+import { GET_REQUEST } from '../Actions';
+import { GET_SUCCESS } from '../Actions';
+import { GET_FAIL } from '../Actions';
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'GET_REQUEST':
+    case GET_REQUEST:
       return { ...state, loading: true };
-    case 'GET_SUCCESS':
+    case GET_SUCCESS:
       return { ...state, product: action.payload, loading: false };
-    case 'GET_FAIL':
+    case GET_FAIL:
       return { ...state, loading: false, error: action.payload };
     default:
       return state;
@@ -44,13 +48,13 @@ function ProductPage() {
 
   useEffect(() => {
     const getProduct = async () => {
-      dispatch({ type: 'GET_REQUEST' });
+      dispatch({ type: GET_REQUEST });
       console.log(product);
       try {
         const res = await axios.get(`/api/v1/products/token/${token}`);
-        dispatch({ type: 'GET_SUCCESS', payload: res.data });
+        dispatch({ type: GET_SUCCESS, payload: res.data });
       } catch (error) {
-        dispatch({ type: 'GET_FAIL', payload: getError(error) });
+        dispatch({ type: GET_FAIL, payload: getError(error) });
       }
     };
 
@@ -68,7 +72,10 @@ function ProductPage() {
       window.alert('Sorry. Product is out of stock');
       return;
     }
-    cxtDispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity } });
+    cxtDispatch({
+      type: ADD_TO_CART,
+      payload: { ...product, quantity },
+    });
     // Navigate('/cart');
   };
 

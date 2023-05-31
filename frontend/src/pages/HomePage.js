@@ -8,14 +8,17 @@ import Product from '../Components/Product';
 import { Helmet } from 'react-helmet-async';
 import LoadingComponent from '../Components/LoadingComponent.js';
 import MessageBox from '../Components/MessageBox.js';
+import { GET_REQUEST } from '../Actions';
+import { GET_SUCCESS } from '../Actions';
+import { GET_FAIL } from '../Actions';
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'GET_REQUEST':
+    case GET_REQUEST:
       return { ...state, loading: true };
-    case 'GET_SUCCESS':
+    case GET_SUCCESS:
       return { ...state, products: action.payload, loading: false };
-    case 'GET_FAIL':
+    case GET_FAIL:
       return { ...state, loading: false, error: action.payload };
     default:
       return state;
@@ -33,12 +36,12 @@ function HomePage() {
 
   useEffect(() => {
     const getProducts = async () => {
-      dispatch({ type: 'GET_REQUEST' });
+      dispatch({ type: GET_REQUEST });
       try {
         const res = await axios.get('/api/v1/products');
-        dispatch({ type: 'GET_SUCCESS', payload: res.data });
+        dispatch({ type: GET_SUCCESS, payload: res.data });
       } catch (error) {
-        dispatch({ type: 'GET_FAIL', payload: error.message });
+        dispatch({ type: GET_FAIL, payload: error.message });
       }
     };
 

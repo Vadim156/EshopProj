@@ -1,5 +1,8 @@
 import { createContext } from 'react';
 import { useReducer } from 'react';
+import { ADD_TO_CART, USER_SIGNOUT } from './Actions.js';
+import { REMOVE_FROM_CART } from './Actions.js';
+import { USER_SIGNIN } from './Actions.js';
 
 export const Store = createContext();
 
@@ -9,11 +12,14 @@ const initialState = {
       ? JSON.parse(localStorage.getItem('cartItems'))
       : [],
   },
+  userInfo: localStorage.getItem('userInfo')
+    ? JSON.parse(localStorage.getItem('userInfo'))
+    : null,
 };
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'ADD_TO_CART':
+    case ADD_TO_CART:
       const newItem = action.payload;
       const existItem = state.cart.cartItems.find(
         (item) => item._id === newItem._id
@@ -26,14 +32,19 @@ function reducer(state, action) {
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
       return { ...state, cart: { ...state.cart, cartItems } };
 
-    case 'REMOVE_FROM_CART': {
+    case REMOVE_FROM_CART: {
       const cartItems = state.cart.cartItems.filter(
         (item) => item._id !== action.payload._id
       );
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
       return { ...state, cart: { ...state.cart, cartItems } };
     }
-
+    case USER_SIGNIN: {
+      return { ...state, userInfo: action.payload };
+    }
+    case USER_SIGNOUT: {
+      return { ...state, userInfo: null };
+    }
     default:
       return state;
   }

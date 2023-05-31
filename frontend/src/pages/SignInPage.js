@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Store } from '../store';
 // import { toast } from 'react-toastify';
 import { getError } from '../Utils';
+import { USER_SIGNIN } from '../Actions';
 
 function SigninPage() {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ function SigninPage() {
         password,
       });
 
-      ctxDispatch({ type: 'USER_SIGNIN', payload: data });
+      ctxDispatch({ type: USER_SIGNIN, payload: data });
 
       localStorage.setItem('userInfo', JSON.stringify(data));
       navigate(redirect || '/');
